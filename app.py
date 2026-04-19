@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import cv
+import cv2
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.mobilenet_v3 import preprocess_input
