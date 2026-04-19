@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import cv2
+import cv
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.mobilenet_v3 import preprocess_input
@@ -91,7 +91,7 @@ if uploaded_file is not None:
     # =========================
     # PREPROCESS
     # =========================
-    img_resized = cv2.resize(img, (288, 288))  # ✅ correct size
+    img_resized = cv.resize(img, (288, 288))  # ✅ correct size
     img_input = preprocess_input(img_resized)
     img_input = np.expand_dims(img_input, axis=0)
 
@@ -124,12 +124,12 @@ if uploaded_file is not None:
     # =========================
     heatmap = get_gradcam(img_input, model)
 
-    heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
+    heatmap = cv.resize(heatmap, (img.shape[1], img.shape[0]))
     heatmap = np.uint8(255 * heatmap)
 
-    heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
+    heatmap = cv.applyColorMap(heatmap, cv.COLORMAP_JET)
 
-    superimposed_img = cv2.addWeighted(img, 0.6, heatmap, 0.4, 0)
+    superimposed_img = cv.addWeighted(img, 0.6, heatmap, 0.4, 0)
 
     st.image(superimposed_img, caption="🔥 Grad-CAM Visualization", width=300)
 
