@@ -21,8 +21,11 @@ if not os.path.exists(MODEL_PATH):
     gdown.download(url, MODEL_PATH, quiet=False)
 
 # Load model
-model = load_model(MODEL_PATH)
+@st.cache_resource
+def load_my_model():
+    return load_model(MODEL_PATH)
 
+model = load_my_model()
 # =========================
 # PAGE SETTINGS
 # =========================
@@ -70,8 +73,9 @@ def get_gradcam(img_array, model):
     heatmap = np.maximum(heatmap, 0)
     heatmap /= np.max(heatmap) + 1e-8
 
-    return heatmap.numpy()
-
+    if isinstance(heatmap, tf.Tensor):
+       heatmap = heatmap.numpy()
+    return heatmap
 # =========================
 # FILE UPLOAD
 # =========================
